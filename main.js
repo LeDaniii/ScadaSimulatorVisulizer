@@ -73,65 +73,20 @@ const stopper = {
         .style("fill", "blue");
     
     // Animation loop ----------
-    const worker = new Worker('simulationWorker.js');
+    const worker = new Worker('./JS/simulationWorker.js');
 
     worker.onmessage = function (e) {
         const updatedWpcs = e.data;
-    
-        worker.postMessage({ wpcs: updatedWpcs, stopper: stopper });
-    }
-    
-    worker.postMessage({ wpcs: wpcs, stopper: stopper });
-    
-    function animateWPCs() {
-        wpcs.forEach(wpc => {
-
-        // Check if the WPC is colliding with the stopper
-        if (isCollidingX(wpc, stopper)) {
-            console.log("Collision detected!");
-            wpc.wpcData.measurement = wpc.wpcData.measurement + 1;
-            // wpc.xDirection = 0;
-            // wpc.yDirection = 0;
-        } 
-        if (wpc.x >= 25 && wpc.x <= 1425 && wpc.y == 75) {
-            if (wpc.xDirection != 1) {
-                wpc.xDirection *= -1;
-            }
-            wpc.x += wpc.xDirection;
-        }
-
-        if (wpc.x == 1425 && wpc.y >= 50 && wpc.y <= 1375) {
-            if (wpc.yDirection != 1) {
-                wpc.yDirection *= -1;
-            }
-            wpc.y += wpc.yDirection;
-        }
-
-        if (wpc.x >= 25 && wpc.x <= 1425 && wpc.y == 1375) {
-            if (wpc.xDirection != -1) {
-                wpc.xDirection *= -1;
-            }
-            wpc.x += wpc.xDirection;
-        }
-
-        if (wpc.x == 25 && wpc.y >= 50 && wpc.y <= 1375) {
-            if (wpc.yDirection != -1) {
-                wpc.yDirection *= -1;
-            }
-            wpc.y += wpc.yDirection;
-        }
-    });
-
-        // Update the position
-        wpcSelection
-            .data(wpcs)
+        
+        wpcSelection.data(updatedWpcs, function (d) { return d.id; })
             .attr("x", d => d.x)
             .attr("y", d => d.y);
 
-        requestAnimationFrame(animateWPCs); // Keep the loop going
+        worker.postMessage({ wpcs: updatedWpcs, stopper: stopper });
     }
-    animateWPCs();
-
+    
+    // Start the animation loop
+    worker.postMessage({ wpcs: wpcs, stopper: stopper });
     // Tooltip ----------
     // Select conveyor items (WPCs)
     const toolTipWpcs = svg.selectAll(".wpc");
@@ -147,13 +102,4 @@ const stopper = {
     .on("mouseout", function() {
         d3.select("#tooltip").style("display", "none");
     });
-
-    // Collision detection ----------
-    function isCollidingX(rect1, rect2) {
-        return rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x;
-    }
-
-    function isCollidingY(rect1, rect2) {
-        return rect1.y < rect2.y + rect2.height && rect1.y + rect1.height > rect2.y;
-    }
 });
