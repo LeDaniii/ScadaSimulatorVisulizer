@@ -75,6 +75,7 @@ const stopper = {
     // Animation loop ----------
     const worker = new Worker('./JS/simulationWorker.js');
 
+    // Worker Handler
     worker.onmessage = function (e) {
         const updatedWpcs = e.data;
         
@@ -87,6 +88,7 @@ const stopper = {
     
     // Start the animation loop
     worker.postMessage({ wpcs: wpcs, stopper: stopper });
+    
     // Tooltip ----------
     // Select conveyor items (WPCs)
     const toolTipWpcs = svg.selectAll(".wpc");

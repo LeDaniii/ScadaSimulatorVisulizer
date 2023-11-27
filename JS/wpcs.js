@@ -5,6 +5,7 @@ function wpcData () {
     this.measurement = 1;
 }
 
+
 let wpcs = [
     { id: 1, x: 50, y: 75, width: 50, height: 50, xDirection: 1, yDirection: 1, wpcData: new wpcData() },
     { id: 2, x: 150, y: 75, width: 50, height: 50, xDirection: 1, yDirection: 1, wpcData: new wpcData()},
