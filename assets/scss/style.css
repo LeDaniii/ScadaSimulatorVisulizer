@@ -1,0 +1,15 @@
+.svg-wrapper {
+    width: 100vw;
+    height: 100vh;
+    background-color: blue;
+}
+
+#tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 8px;
+    background: lightgrey;
+    border: 1px solid #000;
+    border-radius: 5px;
+    pointer-events: none;   /* Prevents the tooltip from interfering with mouse events */
+}
