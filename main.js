@@ -73,22 +73,22 @@ const stopper = {
         .style("fill", "blue");
     
     // Animation loop ----------
+    // Create a new worker
     const worker = new Worker('./JS/simulationWorker.js');
-
-    // Worker Handler
+    // Listen for messages from the worker
     worker.onmessage = function (e) {
         const updatedWpcs = e.data;
         
         wpcSelection.data(updatedWpcs, function (d) { return d.id; })
-            .attr("x", d => d.x)
-            .attr("y", d => d.y);
-
+        .attr("x", d => d.x)
+        .attr("y", d => d.y);
+        
         worker.postMessage({ wpcs: updatedWpcs, stopper: stopper });
     }
     
     // Start the animation loop
     worker.postMessage({ wpcs: wpcs, stopper: stopper });
-    
+
     // Tooltip ----------
     // Select conveyor items (WPCs)
     const toolTipWpcs = svg.selectAll(".wpc");
@@ -97,7 +97,7 @@ const stopper = {
     toolTipWpcs.on("mouseover", function(event, wpc) {
     d3.select("#tooltip")
         .style("display", "inline")
-        .html(`Data: ${wpc.wpcData.measurement}`) // Replace `d.yourData` with the actual data you want to show
+        .html(`Data: ${wpc.wpcData.measurement}`)
         .style("left", (event.pageX + 10) + "px")
         .style("top", (event.pageY - 10) + "px");
     })
