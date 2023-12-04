@@ -1,6 +1,8 @@
 import { wpcs } from "./JS/wpcs.js";
+import { devUpdate } from './JS/uiInteractions.js';
 
-document.addEventListener("DOMContentLoaded", function () { 
+document.addEventListener("DOMContentLoaded", function () {
+
 const stopper = {    
     x: 800,
     y: 75,
@@ -75,18 +77,21 @@ const stopper = {
     // Animation loop ----------
     // Create a new worker
     const worker = new Worker('./JS/simulationWorker.js');
+
+    // Worker Data from Interactions
+    devUpdate(worker);
+
     // Listen for messages from the worker
     worker.onmessage = function (e) {
         const updatedWpcs = e.data;
         
         updateFrontend(updatedWpcs);
-        // worker.postMessage({ wpcs: updatedWpcs, stopper: stopper });
     }
 
     function updateFrontend(data) {
         wpcSelection.data(data, function (d) { return d.id; }).attr("x", d => d.x).attr("y", d => d.y);
     }
-    
+
     // Start the animation loop
     worker.postMessage({ wpcs: wpcs, stopper: stopper });
 

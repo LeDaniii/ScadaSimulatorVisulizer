@@ -11,5 +11,15 @@
     background: lightgrey;
     border: 1px solid #000;
     border-radius: 5px;
-    pointer-events: none;   /* Prevents the tooltip from interfering with mouse events */
+    pointer-events: none;
+}
+
+.devInterface {
+    font-size: 2rem;
+    position: absolute;
+    z-index: 2;
+    background-color: gray;
+    padding: 1rem;
+    top: 100px;
+    right: 50px;
 }
