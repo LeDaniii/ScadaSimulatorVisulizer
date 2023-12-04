@@ -79,11 +79,12 @@ const stopper = {
     worker.onmessage = function (e) {
         const updatedWpcs = e.data;
         
-        wpcSelection.data(updatedWpcs, function (d) { return d.id; })
-        .attr("x", d => d.x)
-        .attr("y", d => d.y);
-        
-        worker.postMessage({ wpcs: updatedWpcs, stopper: stopper });
+        updateFrontend(updatedWpcs);
+        // worker.postMessage({ wpcs: updatedWpcs, stopper: stopper });
+    }
+
+    function updateFrontend(data) {
+        wpcSelection.data(data, function (d) { return d.id; }).attr("x", d => d.x).attr("y", d => d.y);
     }
     
     // Start the animation loop
