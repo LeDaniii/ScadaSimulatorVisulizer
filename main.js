@@ -69,13 +69,13 @@ const stopper = {
         .enter()
         .append("rect")
         .classed("wpc", true)
-        .attr("x", d => d.x - strokeWidth / 2) // Adjust x position to account for stroke width
-        .attr("y", d => d.y - strokeWidth / 2) // Adjust y position to account for stroke width
+        .attr("x", d => d.x - strokeWidth / 2)
+        .attr("y", d => d.y - strokeWidth / 2)
         .attr("width", wpcs[0].width)
         .attr("height", wpcs[0].height)
         .style("fill", "blue")
-        .style("stroke", "red") // Set the stroke color to red
-        .style("stroke-width", strokeWidth); // Set the stroke width
+        .style("stroke", "red")
+        .style("stroke-width", strokeWidth);
     
     // Animation loop ----------
     // Create a new worker
