@@ -63,16 +63,19 @@ const stopper = {
         .style("fill", "brown");
     // Draw conveyor end ----------
 
+    const strokeWidth = 2; 
     const wpcSelection = svgGroup.selectAll(".wpc")
         .data(wpcs)
         .enter()
         .append("rect")
         .classed("wpc", true)
-        .attr("x", d => d.x)
-        .attr("y", d => d.y)
+        .attr("x", d => d.x - strokeWidth / 2) // Adjust x position to account for stroke width
+        .attr("y", d => d.y - strokeWidth / 2) // Adjust y position to account for stroke width
         .attr("width", wpcs[0].width)
         .attr("height", wpcs[0].height)
-        .style("fill", "blue");
+        .style("fill", "blue")
+        .style("stroke", "red") // Set the stroke color to red
+        .style("stroke-width", strokeWidth); // Set the stroke width
     
     // Animation loop ----------
     // Create a new worker
@@ -84,7 +87,6 @@ const stopper = {
     // Listen for messages from the worker
     worker.onmessage = function (e) {
         const updatedWpcs = e.data;
-        
         updateFrontend(updatedWpcs);
     }
 
